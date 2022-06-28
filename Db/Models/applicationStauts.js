@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Application_Stauts_ENUM = ['Submitted', 'Viwed','Accepted','Rejected','Shortlisted'];
-const experienceLevelSchema = new Schema({
+const experienceLevelSchema = new mongoose.Schema({
     text: { type: String, enum: Application_Stauts_ENUM, unique: true },
     created_at: {
         type: Date,

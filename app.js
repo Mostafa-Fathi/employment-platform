@@ -3,6 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+const authRouter = require('./routes/auth.router');
+const employeeRouter = require('./routes/employee.router');
+const languagesRouter = require('./routes/languages.router');
+const jobRouter = require('./routes/job.router');
+
+
+
 const corsOptions = {
   origin: '*',
   credentials: true,            //access-control-allow-credentials:true
@@ -48,6 +55,11 @@ app.use((req, res, next) => {
 });
 
 // Routaing
+app.use('/job', jobRouter);
+app.use('/employee', employeeRouter);
+app.use('/language', languagesRouter);
+app.use('', authRouter);
+
 
 //unknown paths
 app.use((req, res, next) => {

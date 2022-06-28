@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const employerSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId, ref: 'User', required: "user id is required" },
+const employerSchema = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: "user id is required" },
 });
 module.exports = mongoose.model("Employer", employerSchema);

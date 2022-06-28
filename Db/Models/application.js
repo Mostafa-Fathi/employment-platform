@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const statusSchema = require("./applicationStauts")
 
-const applicationSchema = new Schema({
-    applier: { type: Schema.Types.ObjectId, ref: 'Employee' },
-    job: { type: Schema.Types.ObjectId, ref: 'Job' },
+const applicationSchema = new mongoose.Schema({
+    applier: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee' },
+    job: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
     status: {
         type: [statusSchema],
         validate: function arrayLimit(val) {

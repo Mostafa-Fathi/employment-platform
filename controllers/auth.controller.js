@@ -1,4 +1,4 @@
-
+const { validationResult } = require("express-validator");
 const Employee = require("../Db/Models/employee");
 const User = require("../Db/Models/user");
 const Employer = require("../Db/Models/employer");
@@ -40,19 +40,24 @@ exports.login = (req, res, next) => {
 }
 
 exports.signup = (req, res, next) => {
-    const { name, gender, address, email, birth_date, mobile, password, type } = req.body;
-
     let errors = validationResult(req);
+    const { name, gender, address, email, birth_date, mobile, password, type } = req.body;
+    console.log(name);
+    let birthDate = new Date(birth_date);
     if (!errors.isEmpty()) {
         let error = new Error();
         error.status = 422;
+        console.log("eeee");
+
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
+    else {console.log("usergdender");}
 
     let user = new User({
-        name, gender, address, email, birth_date, mobile, password, type
+        name, gender, address, email, birth_date:birthDate, mobile, password, type
     });
+    console.log( user.gender);
     user.save()
         .then(data => {
             if (type == 'Employee') {
