@@ -1,22 +1,30 @@
 const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
-const Experience_Level_ENUM=  require("../Db/Models/experienceLevel");
+const Experience_Level_ENUM = require("../Db/Models/experienceLevel");
 
 const { getEmployeeById, getEmployees, updateEmployee, deleteEmployee } = require("../controllers/employee.controller")
+const { getApplicationsByApplierId } = require("../controllers/application.controller")
+const {protect,restrictTo} = require('./../controllers/auth.controller');
 
 
 //get all employees
-router.get("", [], getEmployees);
+router.get("", protect,
+    getEmployees);
 
 
-//signup
-router.post("/one", [
+//get an employee 
+router.post("/one", protect, [
     body("_id").isString().withMessage("Employee id is required"),
 ], getEmployeeById)
 
-//update Employee route
-router.put("", [
+//get an employee`s applications
+router.post("/myapplications", protect, restrictTo('Employee'), [
+    body("applier").isString().withMessage("Employee id is required"),
+], getApplicationsByApplierId)
+
+//update Employee 
+router.put("", protect, restrictTo('Employee'), [
     body("name.firstname").isString().withMessage("Employee First Name should be String"),
     body("address").isString().withMessage("Employee address should be String"),
     body("name.lastname").isString().withMessage("Employee Last Name should be String"),
@@ -31,6 +39,6 @@ router.put("", [
     body("languages").isArray().withMessage("languages Array is reqiured"),
 ], updateEmployee);
 
-router.delete("", deleteEmployee);
+router.delete("", protect , restrictTo('Employee','admin'),deleteEmployee);
 
 module.exports = router;

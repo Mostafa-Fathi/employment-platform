@@ -2,6 +2,7 @@ const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
 const { signup, login } = require("../controllers/auth.controller")
+const authController = require('./../controllers/auth.controller');
 
 
 //login

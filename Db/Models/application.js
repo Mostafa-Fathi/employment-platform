@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
-const statusSchema = require("./applicationStauts")
+const {Application_Stauts_ENUM} =  require("./applicationStauts");
+const statusSchema = new mongoose.Schema({
+    text: { type: String, enum: Application_Stauts_ENUM, unique: true },
+    created_at: {
+        type: Date,
+        default: Date.now
+    }
+}, { _id: false });
+
 
 const applicationSchema = new mongoose.Schema({
     applier: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee' },
@@ -9,7 +17,7 @@ const applicationSchema = new mongoose.Schema({
         validate: function arrayLimit(val) {
             return val.length <= 5;
         }
-        , default: { text: 'Submitted', created_at: Date.now }
+        , default: { text: 'Submitted', created_at: Date.now() }
     }
 });
 

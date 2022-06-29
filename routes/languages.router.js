@@ -1,30 +1,32 @@
 const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
-const {getLanguages,getALanguage,addlanguage,updatelanguage,deletelanguage} = require("../controllers/languages.controller")
+const { getLanguages, getALanguage, addlanguage, updatelanguage, deletelanguage } = require("../controllers/languages.controller")
+const authController = require('./../controllers/auth.controller');
 
 
-//get all Clinic Services
-router.get("", getLanguages);
+//get all languages
+router.get("", authController.protect, getLanguages);
 
 
-//get a Clinic Service data
-router.post("/one",[
-     body("_id").isString().withMessage("Language ID is Not Correct"),
-   
+//get a language
+router.post("/one", authController.protect, authController.restrictTo('admin'), [
+    body("_id").isString().withMessage("Language ID is Not Correct"),
+
 ], getALanguage);
 
-//add new Clinic Service route
-router.post("", [
+//add new language
+router.post("", authController.protect, authController.restrictTo('admin'), [
     body("name").isString().withMessage("Language Name should be String"),
-   
+
 ], addlanguage);
 
-//update Clinic Service route
-router.put("", [
+//update language
+router.put("", authController.protect, authController.restrictTo('admin'), [
     body("name").isString().withMessage("Language Name should be String"),
-  
-],updatelanguage);
 
-router.delete("", deletelanguage);
+], updatelanguage);
+
+router.delete("", authController.protect, authController.restrictTo('admin'),
+    deletelanguage);
 module.exports = router;

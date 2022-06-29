@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -7,7 +8,7 @@ const authRouter = require('./routes/auth.router');
 const employeeRouter = require('./routes/employee.router');
 const languagesRouter = require('./routes/languages.router');
 const jobRouter = require('./routes/job.router');
-
+const applicationRouter = require('./routes/application.router');
 
 
 const corsOptions = {
@@ -56,6 +57,7 @@ app.use((req, res, next) => {
 
 // Routaing
 app.use('/job', jobRouter);
+app.use('/application', applicationRouter);
 app.use('/employee', employeeRouter);
 app.use('/language', languagesRouter);
 app.use('', authRouter);
